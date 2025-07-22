@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "deploy": "cd agent && ./node_modules/.bin/wrangler deploy",
+    "deploy": "npx wrangler deploy",
     "dev": "npx wrangler dev",
     "start": "npx wrangler dev"
   },

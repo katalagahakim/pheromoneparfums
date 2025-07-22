@@ -1,5 +1,5 @@
 name = "pheromone-agent-worker"
-main = "src/index.js"
+main = "agent/src/index.js"
 compatibility_date = "2023-10-02"
 
 # Enable the AI binding for Cloudflare AI integration
