@@ -5,6 +5,3 @@ set -e
 cd blog
 npx eleventy
 cd ..
-
-# Deploy the worker
-npx wrangler deploy
