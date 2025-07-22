@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "npx wrangler dev",
-    "start": "npx wrangler dev"
+    "start": "npx wrangler dev",
+    "deploy": "npx wrangler deploy"
   },
   "dependencies": {
     "@octokit/rest": "^20.0.2",
