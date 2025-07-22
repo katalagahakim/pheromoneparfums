@@ -1,0 +1,14 @@
+---
+layout: layouts/blog.njk
+title: Pheromone Reviews
+description: Browse our comprehensive collection of pheromone product reviews.
+eleventyNavigation:
+  key: Reviews
+  order: 2
+permalink: /reviews/{% if pagination.pageNumber > 0 %}page-{{ pagination.pageNumber + 1 }}/{% endif %}
+pagination:
+  data: collections.posts
+  size: 10
+  alias: postslist
+  reverse: true
+---

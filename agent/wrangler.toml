@@ -1,0 +1,23 @@
+name = "pheromone-agent-worker"
+main = "src/index.js"
+compatibility_date = "2023-10-02"
+
+# Enable the AI binding for Cloudflare AI integration
+[ai]
+binding = "AI"
+
+# Enable scheduled triggers - run once a day at 3 AM UTC
+[triggers]
+crons = ["0 3 * * *"] # Run once a day at 3 AM UTC
+
+# Define environment variables
+[vars]
+GITHUB_REPO_NAME = "pheromoneparfums"
+GITHUB_REPO_OWNER = "katalagahakim"
+MAX_REVIEWS_PER_RUN = "1"
+MAX_REVIEWS_TOTAL = "50"
+
+# Define secrets that will be encrypted
+# You'll need to set these using `wrangler secret put <NAME>`
+# - GITHUB_TOKEN
+# - OPENAI_API_KEY

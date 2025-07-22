@@ -1,0 +1,6 @@
+# robots.txt for Pheromone Parfums Blog
+
+User-agent: *
+Allow: /
+
+Sitemap: https://pheromoneparfums.com/sitemap.xml

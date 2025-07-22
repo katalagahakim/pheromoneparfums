@@ -1,0 +1,70 @@
+---
+layout: layouts/base.njk
+---
+
+<article class="post">
+  <header class="post-header">
+    <h1 class="post-title">{{ title }}</h1>
+    <div class="post-meta">
+      <time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time>
+      {% if product %}
+      <div class="product-info">
+        <span class="product-brand">{{ product.brand }}</span>
+        <span class="product-name">{{ product.name }}</span>
+        <span class="product-type">{{ product.type }}</span>
+        {% if product.rating %}
+        <span class="product-rating">Rating: {{ product.rating }}/5</span>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="post-content">
+    {{ content | safe }}
+  </div>
+
+  {% if product and product.pros and product.cons %}
+  <div class="product-summary">
+    <div class="pros">
+      <h3>Pros</h3>
+      <ul>
+        {% for pro in product.pros %}
+        <li>{{ pro }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="cons">
+      <h3>Cons</h3>
+      <ul>
+        {% for con in product.cons %}
+        <li>{{ con }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="post-tags">
+    {% for tag in tags %}
+      {%- if tag != "posts" -%}
+      <a href="/tags/{{ tag | slugify }}/" class="post-tag">{{ tag }}</a>
+      {%- endif -%}
+    {% endfor %}
+  </div>
+
+  <nav class="post-navigation">
+    <div class="nav-previous">
+      {%- set previousPost = collections.posts | getPreviousCollectionItem %}
+      {%- if previousPost %}
+      <a href="{{ previousPost.url }}" rel="prev">← {{ previousPost.data.title }}</a>
+      {% endif %}
+    </div>
+    <div class="nav-next">
+      {%- set nextPost = collections.posts | getNextCollectionItem %}
+      {%- if nextPost %}
+      <a href="{{ nextPost.url }}" rel="next">{{ nextPost.data.title }} →</a>
+      {% endif %}
+    </div>
+  </nav>
+</article>

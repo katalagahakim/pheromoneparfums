@@ -1,0 +1,53 @@
+---
+layout: layouts/base.njk
+---
+
+<div class="home">
+  <section class="hero">
+    <div class="hero-content">
+      <h1>{{ metadata.title }}</h1>
+      <p class="hero-description">{{ metadata.description }}</p>
+    </div>
+  </section>
+
+  <section class="latest-reviews">
+    <h2>Latest Pheromone Reviews</h2>
+    
+    <div class="post-grid">
+      {%- for post in collections.posts | reverse -%}
+        {% if loop.index0 < 6 %}
+          <article class="post-card">
+            <div class="post-card-content">
+              <h3 class="post-card-title">
+                <a href="{{ post.url }}">{{ post.data.title }}</a>
+              </h3>
+              
+              <div class="post-card-meta">
+                <time datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time>
+                {% if post.data.product %}
+                <span class="product-brand">{{ post.data.product.brand }}</span>
+                {% endif %}
+              </div>
+              
+              <div class="post-card-excerpt">
+                {{ post.data.description or post.templateContent | striptags | truncate(150) }}
+              </div>
+              
+              <a href="{{ post.url }}" class="read-more">Read Review →</a>
+            </div>
+          </article>
+        {% endif %}
+      {%- endfor -%}
+    </div>
+    
+    <div class="view-all">
+      <a href="/blog/" class="button">View All Reviews</a>
+    </div>
+  </section>
+
+  <section class="about-section">
+    <h2>About Pheromone Parfums</h2>
+    <p>Welcome to our autonomous pheromone review blog. We use advanced AI to analyze and generate comprehensive reviews of the latest pheromone products on the market. Our goal is to provide you with accurate, unbiased information to help you make informed decisions about pheromone fragrances.</p>
+    <a href="/about/" class="button">Learn More</a>
+  </section>
+</div>

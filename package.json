@@ -1,0 +1,30 @@
+{
+  "name": "pheromoneparfums",
+  "version": "1.0.0",
+  "description": "Autonomous pheromone review blog with Cloudflare AI agent",
+  "scripts": {
+    "start:blog": "cd blog && npx eleventy --serve",
+    "build:blog": "cd blog && npx eleventy",
+    "start:agent": "cd agent && npx wrangler dev",
+    "deploy:agent": "cd agent && npx wrangler deploy",
+    "install:blog": "cd blog && npm install",
+    "install:agent": "cd agent && npm install",
+    "install:all": "npm install && npm run install:blog && npm run install:agent",
+    "start": "echo \"Please use 'npm run start:blog' or 'npm run start:agent' to start specific components\""
+  },
+  "keywords": [
+    "pheromone",
+    "review",
+    "blog",
+    "cloudflare",
+    "ai",
+    "agent"
+  ],
+  "author": "",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "blog",
+    "agent"
+  ]
+}

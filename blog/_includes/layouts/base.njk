@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="{{ metadata.language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title or metadata.title }}</title>
+    <meta name="description" content="{{ description or metadata.description }}">
+    
+    {# Favicon #}
+    <link rel="icon" href="/img/favicon.ico" sizes="any">
+    
+    {# CSS #}
+    <link rel="stylesheet" href="/css/styles.css">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1 class="site-title"><a href="/">{{ metadata.title }}</a></h1>
+        <nav>
+          <ul class="nav">
+            <li class="nav-item"><a href="/">Home</a></li>
+            <li class="nav-item"><a href="/reviews/">Reviews</a></li>
+            <li class="nav-item"><a href="/about/">About</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      {{ content | safe }}
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; {% currentYear %} {{ metadata.author.name }}. All rights reserved.</p>
+        <p>Powered by <a href="https://www.11ty.dev/">Eleventy</a> and <a href="https://workers.cloudflare.com/">Cloudflare Workers</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>
