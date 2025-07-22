@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "deploy": "npx wrangler deploy",
     "dev": "npx wrangler dev",
     "start": "npx wrangler dev"
   },
