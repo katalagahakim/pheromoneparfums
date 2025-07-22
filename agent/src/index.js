@@ -90,8 +90,8 @@ router.post('/generate-specific', async (request, env, ctx) => {
   }
 });
 
-// Handle all other requests
-router.all('*', () => new Response('Not Found', { status: 404 }));
+// Handle all other requests by fetching from the static assets
+router.all('*', (request, env) => env.ASSETS.fetch(request));
 
 // Helper function to initialize the agent
 function initializeAgent(env) {
