@@ -5,8 +5,7 @@
   "scripts": {
     "build": "eleventy",
     "start": "eleventy --serve",
-    "debug": "DEBUG=* eleventy",
-    "deploy": "echo 'no-op'"
+    "debug": "DEBUG=* eleventy"
   },
   "keywords": [
     "pheromone",
