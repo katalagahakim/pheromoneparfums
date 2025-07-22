@@ -7,12 +7,6 @@ const router = Router();
 // Initialize the agent
 let agent;
 
-// Handle GET requests to the root
-router.get('/', async () => {
-  return new Response('Pheromone Review Agent is running!', {
-    headers: { 'Content-Type': 'text/plain' },
-  });
-});
 
 // Handle POST requests to /generate endpoint
 router.post('/generate', async (request, env, ctx) => {
