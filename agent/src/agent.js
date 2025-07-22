@@ -379,8 +379,7 @@ rating: ${reviewContent.rating || 3.5}
 `;
     
     // Format the review content as markdown
-    const markdown = `
-# ${product.name} Review
+    const markdown = `# ${product.name} Review
 
 ## Introduction
 ${reviewContent.introduction}
@@ -454,4 +453,5 @@ Overall rating: **${reviewContent.rating}/5**
       throw error;
     }
   }
+  
 }

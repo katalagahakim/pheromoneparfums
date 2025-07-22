@@ -2,69 +2,32 @@
 layout: layouts/base.njk
 ---
 
-<article class="post">
-  <header class="post-header">
-    <h1 class="post-title">{{ title }}</h1>
-    <div class="post-meta">
-      <time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time>
-      {% if product %}
-      <div class="product-info">
-        <span class="product-brand">{{ product.brand }}</span>
-        <span class="product-name">{{ product.name }}</span>
-        <span class="product-type">{{ product.type }}</span>
-        {% if product.rating %}
-        <span class="product-rating">Rating: {{ product.rating }}/5</span>
-        {% endif %}
-      </div>
-      {% endif %}
+<div class="hero">
+    <div class="container">
+        <h1>{{ title }}</h1>
+        <p class="subheadline">{{ description }}</p>
+        
+        <div class="rating">
+            <div class="stars">★★★★☆</div>
+            <p><strong>Our Rating: {{ rating }}/5</strong></p>
+            <p style="font-size: 0.9em;">Based on independent analysis of user reports</p>
+        </div>
+        
+        <a href="#" class="cta-button" target="_blank">Check Current Price<span class="external-link">↗</span></a>
+        
+        <p class="disclaimer">
+            Disclosure: We may receive a commission if you purchase through our links, but this never affects our reviews or rankings.
+        </p>
     </div>
-  </header>
+</div>
 
-  <div class="post-content">
-    {{ content | safe }}
-  </div>
-
-  {% if product and product.pros and product.cons %}
-  <div class="product-summary">
-    <div class="pros">
-      <h3>Pros</h3>
-      <ul>
-        {% for pro in product.pros %}
-        <li>{{ pro }}</li>
-        {% endfor %}
-      </ul>
+<div class="container">
+    <div class="section">
+        <div class="review-meta">
+            <p><strong>Review Date:</strong> {{ page.date | readableDate }} | <strong>Last Updated:</strong> {{ page.date | readableDate }}</p>
+            <p><strong>Product Reviewed:</strong> {{ title }}</p>
+        </div>
+        
+        {{ content | safe }}
     </div>
-    <div class="cons">
-      <h3>Cons</h3>
-      <ul>
-        {% for con in product.cons %}
-        <li>{{ con }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-  {% endif %}
-
-  <div class="post-tags">
-    {% for tag in tags %}
-      {%- if tag != "posts" -%}
-      <a href="/tags/{{ tag | slugify }}/" class="post-tag">{{ tag }}</a>
-      {%- endif -%}
-    {% endfor %}
-  </div>
-
-  <nav class="post-navigation">
-    <div class="nav-previous">
-      {%- set previousPost = collections.posts | getPreviousCollectionItem %}
-      {%- if previousPost %}
-      <a href="{{ previousPost.url }}" rel="prev">← {{ previousPost.data.title }}</a>
-      {% endif %}
-    </div>
-    <div class="nav-next">
-      {%- set nextPost = collections.posts | getNextCollectionItem %}
-      {%- if nextPost %}
-      <a href="{{ nextPost.url }}" rel="next">{{ nextPost.data.title }} →</a>
-      {% endif %}
-    </div>
-  </nav>
-</article>
+</div>

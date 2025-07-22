@@ -1,6 +1,33 @@
 ---
 layout: layouts/home.njk
-eleventyNavigation:
-  key: Home
-  order: 1
+title: Pheromone Reviews
+description: Unbiased, data-driven reviews of pheromone colognes and fragrances. We analyze user reports and scientific studies to help you find the best pheromones.
 ---
+
+<div class="hero">
+    <div class="container">
+        <h1>Pheromone Reviews You Can Trust</h1>
+        <p class="subheadline">We analyze thousands of user reports and scientific studies to provide unbiased reviews of the most popular pheromone colognes and fragrances.</p>
+        <a href="/reviews/" class="cta-button">Browse All Reviews</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="section">
+        <h2>Latest Reviews</h2>
+        <div class="post-grid">
+            {%- for post in collections.posts | head(-3) | reverse -%}
+                {% include "post-card.njk" %}
+            {%- endfor -%}
+        </div>
+        <div class="view-all">
+            <a href="/reviews/" class="button">View All Reviews</a>
+        </div>
+    </div>
+
+    <div class="section about-section">
+        <h2>Why Trust Us?</h2>
+        <p>We are a team of researchers and data scientists passionate about helping people make informed decisions. We are not affiliated with any pheromone company and our reviews are 100% independent and unbiased.</p>
+        <a href="/about/" class="button">Learn More About Us</a>
+    </div>
+</div>

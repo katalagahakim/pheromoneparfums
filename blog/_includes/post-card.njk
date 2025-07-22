@@ -1,0 +1,13 @@
+<a href="{{ post.url }}" class="post-card">
+    <div class="post-card-content">
+        <h3 class="post-card-title">{{ post.data.title }}</h3>
+        <div class="post-card-meta">
+            <time datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time>
+            {% if post.data.rating %}
+            <span class="product-rating">Rating: {{ post.data.rating }}/5</span>
+            {% endif %}
+        </div>
+        <p class="post-card-excerpt">{{ post.data.description or post.templateContent | striptags | truncate(120) }}</p>
+        <span class="read-more">Read Full Review →</span>
+    </div>
+</a>
