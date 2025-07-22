@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "deploy": "npx wrangler deploy",
+    "deploy": "npx wrangler pages deploy blog/_site",
     "dev": "npx wrangler dev",
     "start": "npx wrangler dev"
   },
