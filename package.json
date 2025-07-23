@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "Autonomous pheromone review blog with Cloudflare AI agent",
   "scripts": {
-    "build": "npx eleventy --input=blog --output=blog/_site",
-    "deploy": "npx wrangler deploy"
+    "build": "npx eleventy --input=blog --output=dist",
+    "deploy": "npx wrangler pages deploy dist",
+    "start": "npm-run-all --parallel start:*",
+    "start:blog": "npx eleventy --serve --input=blog --output=dist",
+    "start:api": "npx wrangler dev functions/api/src/index.js --local"
   },
   "keywords": [
     "pheromone",
@@ -29,5 +32,8 @@
     "itty-router": "^4.0.27",
     "openai": "5.10.1",
     "wrangler": "^3.62.0"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
   }
 }
