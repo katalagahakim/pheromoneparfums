@@ -1,5 +1,5 @@
----
-layout: layouts/base.njk
----
+{% extends "layouts/base.njk" %}
 
-{{ content | safe }}
+{% block content %}
+  {{ content | safe }}
+{% endblock %}

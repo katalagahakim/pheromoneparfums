@@ -1,33 +1,66 @@
 ---
 layout: layouts/home.njk
-title: Pheromone Reviews
-description: Unbiased, data-driven reviews of pheromone colognes and fragrances. We analyze user reports and scientific studies to help you find the best pheromones.
 ---
 
 <div class="hero">
     <div class="container">
         <h1>Pheromone Reviews You Can Trust</h1>
-        <p class="subheadline">We analyze thousands of user reports and scientific studies to provide unbiased reviews of the most popular pheromone colognes and fragrances.</p>
-        <a href="/reviews/" class="cta-button">Browse All Reviews</a>
+        <p>We analyze thousands of user reports and scientific studies to provide unbiased reviews of the most popular pheromone colognes and fragrances.</p>
+        <div class="countdown">
+            <div>
+                <span>00</span>
+                <span>HRS</span>
+            </div>
+            <div>:</div>
+            <div>
+                <span>18</span>
+                <span>MIN</span>
+            </div>
+            <div>:</div>
+            <div>
+                <span>20</span>
+                <span>SEC</span>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="container">
-    <div class="section">
-        <h2>Latest Reviews</h2>
-        <div class="post-grid">
-            {%- for post in collections.posts | head(-3) | reverse -%}
-                {% include "post-card.njk" %}
-            {%- endfor -%}
+<div class="deals">
+    <div class="container">
+        <div class="deal-card">
+            <h2>2.5GB</h2>
+            <p>KVM VPS</p>
+            <a href="#" class="order-now">Order Now</a>
         </div>
-        <div class="view-all">
-            <a href="/reviews/" class="button">View All Reviews</a>
+        <div class="deal-card">
+            <h2>3GB</h2>
+            <p>KVM VPS</p>
+            <a href="#" class="order-now">Order Now</a>
+        </div>
+        <div class="deal-card">
+            <h2>4.5GB</h2>
+            <p>KVM VPS</p>
+            <a href="#" class="order-now">Order Now</a>
         </div>
     </div>
+</div>
 
-    <div class="section about-section">
-        <h2>Why Trust Us?</h2>
-        <p>We are a team of researchers and data scientists passionate about helping people make informed decisions. We are not affiliated with any pheromone company and our reviews are 100% independent and unbiased.</p>
-        <a href="/about/" class="button">Learn More About Us</a>
+<div class="why-choose-us">
+    <div class="container">
+        <h2>Why Choose Us?</h2>
+        <div class="features">
+            <div class="feature-card">
+                <h3>Cutting-Edge Processing Power</h3>
+                <p>Unleash the full potential of your applications with our high-performance processors.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Rocket Fast Speeds</h3>
+                <p>Experience lightning-quick connectivity with our high-performance network.</p>
+            </div>
+            <div class="feature-card">
+                <h3>24x7 Around The Clock Support</h3>
+                <p>We pride ourselves on delivering reliable and responsive support you can count on.</p>
+            </div>
+        </div>
     </div>
 </div>
