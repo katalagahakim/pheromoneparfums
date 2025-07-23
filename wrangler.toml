@@ -1,4 +1,4 @@
-name = "pheromone-parfums"
+name = "pheromoneparfums"
 main = "functions/api/src/index.js"
 compatibility_date = "2023-10-02"
 
