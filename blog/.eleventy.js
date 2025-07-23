@@ -12,8 +12,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(pluginNavigation);
 
   // Copy the `img` and `css` folders to the output
-  eleventyConfig.addPassthroughCopy("img");
-  eleventyConfig.addPassthroughCopy("css");
+  eleventyConfig.addPassthroughCopy("blog/img");
+  eleventyConfig.addPassthroughCopy("blog/css");
 
   // Add filters
   eleventyConfig.addFilter("readableDate", dateObj => {
