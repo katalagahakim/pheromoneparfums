@@ -84,8 +84,8 @@ router.post('/generate-specific', async (request, env, ctx) => {
   }
 });
 
-// Handle all other requests by fetching from the static assets
-router.all('*', (request, env) => env.ASSETS.fetch(request));
+// Handle all other requests
+router.all('*', ({ next }) => next());
 
 // Helper function to initialize the agent
 function initializeAgent(env) {
