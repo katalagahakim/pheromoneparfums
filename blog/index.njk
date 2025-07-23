@@ -11,8 +11,14 @@ layout: layouts/home.njk
 
     <div class="section">
         <h2>Latest Reviews</h2>
-        {% set posts = collections.posts | head(-3) %}
-        {% include "post-card.njk" %}
+        {% set posts = collections.posts | reverse | head(3) %}
+        {% for post in posts %}
+            <div class="post-card">
+                <h3><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
+                <p>{{ post.templateContent | excerpt }}</p>
+                <p><a href="{{ post.url }}">Read Full Review →</a></p>
+            </div>
+        {% endfor %}
     </div>
 
     <div class="section">

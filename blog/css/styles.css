@@ -88,3 +88,27 @@ body {
     color: #ecf0f1;
     text-decoration: underline;
 }
+
+/* Post Card */
+.post-card {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.post-card:last-child {
+    border-bottom: none;
+}
+
+.post-card h3 {
+    margin-top: 0;
+}
+
+.post-card a {
+    text-decoration: none;
+    color: #333;
+}
+
+.post-card a:hover {
+    color: #5c2d91;
+}
