@@ -2,32 +2,301 @@
 layout: layouts/base.njk
 ---
 
-<div class="hero">
+<div class="review-hero">
     <div class="container">
-        <h1>{{ title }}</h1>
-        <p class="subheadline">{{ description }}</p>
-        
-        <div class="rating">
-            <div class="stars">★★★★☆</div>
-            <p><strong>Our Rating: {{ rating }}/5</strong></p>
-            <p style="font-size: 0.9em;">Based on independent analysis of user reports</p>
+        <div class="breadcrumb">
+            <a href="/">Home</a> → <a href="/reviews/">Reviews</a> → {{ product.name or title }}
         </div>
-        
-        <a href="#" class="cta-button" target="_blank">Check Current Price<span class="external-link">↗</span></a>
-        
-        <p class="disclaimer">
-            Disclosure: We may receive a commission if you purchase through our links, but this never affects our reviews or rankings.
-        </p>
+
+        <h1 class="review-title">{{ title }}</h1>
+        <p class="review-description">{{ description }}</p>
+
+        {% if product %}
+        <div class="product-info-bar">
+            <div class="info-item">
+                <div class="info-label">Brand</div>
+                <div class="info-value">{{ product.brand }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Type</div>
+                <div class="info-value">{{ product.type | capitalize }}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Rating</div>
+                <div class="info-value rating-badge">⭐ {{ product.rating }}/5</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Reviews</div>
+                <div class="info-value">{{ product.review_count }}+</div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 
 <div class="container">
-    <div class="section">
-        <div class="review-meta">
-            <p><strong>Review Date:</strong> {{ page.date | readableDate }} | <strong>Last Updated:</strong> {{ page.date | readableDate }}</p>
-            <p><strong>Product Reviewed:</strong> {{ title }}</p>
+    <div class="review-content">
+        <div class="content-wrapper">
+            {{ content | safe }}
         </div>
-        
-        {{ content | safe }}
+
+        <aside class="review-sidebar">
+            <div class="sidebar-card">
+                <h3>Quick Stats</h3>
+                {% if product %}
+                <div class="stat-item">
+                    <span class="stat-label">Overall Rating:</span>
+                    <span class="stat-value">{{ product.rating }}/5 ⭐</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Total Reviews:</span>
+                    <span class="stat-value">{{ product.review_count }}+</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Product Type:</span>
+                    <span class="stat-value">{{ product.type | capitalize }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Target:</span>
+                    <span class="stat-value">{{ product.gender | capitalize }}</span>
+                </div>
+                {% endif %}
+
+                <div class="review-date">
+                    <small>Last Updated: {{ page.date | readableDate }}</small>
+                </div>
+            </div>
+
+            <div class="sidebar-card cta-card">
+                <h3>Find More Reviews</h3>
+                <p>Looking for more pheromone reviews?</p>
+                <a href="/reviews/" class="sidebar-cta">Browse All Products</a>
+            </div>
+        </aside>
     </div>
 </div>
+
+<style>
+.review-hero {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+    padding: 60px 20px 40px;
+    margin-bottom: 40px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.breadcrumb {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.breadcrumb a {
+    color: #22d3ee;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.review-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+.review-description {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.product-info-bar {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-item {
+    text-align: center;
+}
+
+.info-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.rating-badge {
+    color: #22d3ee;
+    text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+}
+
+.review-content {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 40px;
+    margin: 40px 0;
+}
+
+.content-wrapper {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    line-height: 1.8;
+}
+
+.content-wrapper h2 {
+    color: #ffffff;
+    font-size: 2rem;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(34, 211, 238, 0.3);
+}
+
+.content-wrapper h3 {
+    color: #22d3ee;
+    font-size: 1.5rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.content-wrapper p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 20px;
+}
+
+.content-wrapper ul, .content-wrapper ol {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 20px;
+    padding-left: 30px;
+}
+
+.content-wrapper li {
+    margin-bottom: 10px;
+}
+
+.content-wrapper hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    margin: 30px 0;
+}
+
+.review-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-item:last-child {
+    border-bottom: none;
+}
+
+.stat-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+}
+
+.stat-value {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.review-date {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+}
+
+.cta-card {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%);
+    border: 2px solid rgba(34, 211, 238, 0.3);
+    text-align: center;
+}
+
+.cta-card p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+}
+
+.sidebar-cta {
+    display: inline-block;
+    background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+}
+
+.sidebar-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.6);
+    text-decoration: none;
+}
+
+@media (max-width: 1024px) {
+    .review-content {
+        grid-template-columns: 1fr;
+    }
+
+    .review-sidebar {
+        order: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .review-title {
+        font-size: 2rem;
+    }
+
+    .product-info-bar {
+        gap: 15px;
+    }
+
+    .content-wrapper {
+        padding: 25px;
+    }
+}
+</style>
