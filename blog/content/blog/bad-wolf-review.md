@@ -2,6 +2,7 @@
 title: "Bad Wolf by Liquid Alchemy Labs - Detailed Review"
 description: "Comprehensive review of Bad Wolf pheromone cologne by Liquid Alchemy Labs. Real user experience after 2 months of daily use."
 date: 2025-10-01
+layout: layouts/post.njk
 tags:
   - posts
 product:

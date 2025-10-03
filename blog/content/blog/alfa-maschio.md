@@ -2,6 +2,7 @@
 title: "Alfa Maschio by Alpha Dream - Comprehensive Pheromone Review"
 description: "A detailed review of Alfa Maschio, a Pheromone Cologne pheromone fragrance by Alpha Dream"
 date: 2025-07-25
+layout: layouts/post.njk
 tags: ["pheromone", "review", "alpha dream", "pheromone cologne"]
 rating: 3.5
 ---

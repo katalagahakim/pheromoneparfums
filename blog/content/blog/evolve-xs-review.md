@@ -2,6 +2,7 @@
 title: "Evolve-XS Review - Does It Really Work?"
 description: "Honest review of Evolve-XS by PheromoneXS. 6 weeks of testing with surprising results."
 date: 2025-09-25
+layout: layouts/post.njk
 tags:
   - posts
 product:

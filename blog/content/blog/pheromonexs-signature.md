@@ -2,6 +2,7 @@
 title: "PheromoneXS Signature by PheromoneXS - Comprehensive Pheromone Review"
 description: "A detailed review of PheromoneXS Signature, a Cologne pheromone fragrance by PheromoneXS"
 date: 2025-07-25
+layout: layouts/post.njk
 tags: ["pheromone", "review", "pheromonexs", "cologne"]
 rating: 3.5
 ---

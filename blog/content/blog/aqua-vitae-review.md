@@ -2,6 +2,7 @@
 title: "Aqua Vitae Review - The Gentleman's Pheromone"
 description: "In-depth review of Aqua Vitae by Liquid Alchemy Labs. 3 months of testing in professional and social settings."
 date: 2025-09-28
+layout: layouts/post.njk
 tags:
   - posts
 product:

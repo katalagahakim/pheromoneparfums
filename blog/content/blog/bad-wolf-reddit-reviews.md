@@ -2,6 +2,7 @@
 title: "Bad Wolf - Real Reddit User Reviews"
 description: "Authentic user experiences with Bad Wolf pheromone from r/pheromones. Real reviews from actual users."
 date: 2025-10-03
+layout: layouts/post.njk
 tags:
   - posts
 product:
