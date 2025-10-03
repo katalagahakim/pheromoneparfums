@@ -2,6 +2,7 @@ import { Router } from 'itty-router';
 import { AutonomousReviewAgent } from './autonomous-agent.js';
 import { PheromoneReviewAgent } from './agent.js';
 import { scrapeRedditSimple } from './simple-scraper.js';
+import { AutonomousScheduler } from './autonomous-scheduler.js';
 import { Octokit } from '@octokit/rest';
 
 // Create a new router
@@ -104,6 +105,37 @@ router.post('/generate-specific', async (request, env, ctx) => {
     return new Response(JSON.stringify({
       success: true,
       message: `Review generation for ${body.product.name} started`
+    }), {
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({
+      success: false,
+      error: error.message
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+});
+
+// TEST: Manual trigger for autonomous multi-source scraper
+router.post('/test-autonomous', async (request, env, ctx) => {
+  try {
+    async function doAutonomousScrape() {
+      console.log('🧪 Testing autonomous multi-source scraper...');
+
+      const scheduler = new AutonomousScheduler(env);
+      const result = await scheduler.run();
+
+      console.log('Test complete:', result);
+    }
+
+    ctx.waitUntil(doAutonomousScrape());
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: 'Autonomous scraper test started! Check logs and GitHub.'
     }), {
       headers: { 'Content-Type': 'application/json' },
     });
@@ -284,9 +316,10 @@ export default {
     console.log('=== Scheduled Task Triggered ===');
     console.log(`Time: ${new Date().toISOString()}`);
 
-    const agent = initializeAutonomousAgent(env);
+    // Use the new multi-source autonomous scheduler
+    const scheduler = new AutonomousScheduler(env);
 
     // Run the autonomous scraping
-    ctx.waitUntil(agent.run());
+    ctx.waitUntil(scheduler.run());
   },
 };
