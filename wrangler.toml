@@ -23,6 +23,16 @@ database_id = "552716b3-e3dd-4e6f-84ab-1c4d0ef6aafa"
 binding = "KV"
 id = "aea285731d1f43c7859df3a75f8cff9a"
 
+# Queue for async scraping (bypasses 30s timeout)
+[[queues.producers]]
+queue = "review-scraper-queue"
+binding = "SCRAPER_QUEUE"
+
+[[queues.consumers]]
+queue = "review-scraper-queue"
+max_batch_size = 1
+max_batch_timeout = 30
+
 [triggers]
 crons = ["0 3 * * *"]  # Daily at 3 AM UTC
 

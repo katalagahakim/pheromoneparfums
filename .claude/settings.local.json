@@ -24,7 +24,9 @@
       "Bash(npx wrangler d1 execute:*)",
       "Bash(npx wrangler:*)",
       "Bash(npm run build:blog:*)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(export CLOUDFLARE_ACCOUNT_ID=\"228ba5cfac397accddf678da1b6aa10d\")",
+      "Bash(git reset:*)"
     ],
     "deny": [],
     "ask": []
