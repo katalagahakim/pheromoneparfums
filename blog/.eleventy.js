@@ -14,6 +14,7 @@ module.exports = function(eleventyConfig) {
   // Copy the `img` and `css` folders to the output
   eleventyConfig.addPassthroughCopy("blog/img");
   eleventyConfig.addPassthroughCopy("blog/css");
+  eleventyConfig.addPassthroughCopy("blog/js");
 
   // Add filters
   eleventyConfig.addFilter("readableDate", dateObj => {
@@ -65,6 +66,31 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addFilter("excerpt", (post) => {
     const content = post.replace(/^\s*[\r\n]/gm, "").replace(/\<[^\>]*\>/g, "");
     return content.substr(0, content.lastIndexOf(" ", 200)) + "...";
+  });
+
+  // Create search index collection
+  eleventyConfig.addCollection("searchIndex", function(collectionApi) {
+    const posts = collectionApi.getFilteredByTag("posts");
+
+    return posts.map(post => {
+      const product = post.data.product || {};
+
+      return {
+        url: post.url,
+        title: post.data.title,
+        description: post.data.description,
+        brand: product.brand || '',
+        productName: product.name || '',
+        productType: product.type || '',
+        gender: product.gender || '',
+        rating: product.rating || 0,
+        reviewCount: product.review_count || 0,
+        compounds: product.compounds || [],
+        tags: post.data.tags || [],
+        date: post.date,
+        excerpt: post.data.description || ''
+      };
+    });
   });
 
   // Configure markdown library and settings

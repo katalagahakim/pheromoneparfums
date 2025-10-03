@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Autonomous pheromone review blog with Cloudflare AI agent",
   "scripts": {
+    "prebuild": "git pull",
     "build": "npx eleventy --config=blog/.eleventy.js",
     "deploy": "npx wrangler pages deploy dist",
     "start": "npm-run-all --parallel start:*",
@@ -25,11 +26,11 @@
     "@11ty/eleventy-navigation": "^0.3.5",
     "@11ty/eleventy-plugin-rss": "^1.2.0",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+    "@octokit/rest": "^20.0.1",
+    "itty-router": "^4.0.27",
     "luxon": "^3.3.0",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.7",
-    "@octokit/rest": "^20.0.1",
-    "itty-router": "^4.0.27",
     "openai": "5.10.1",
     "wrangler": "^3.62.0"
   },

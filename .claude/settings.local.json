@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude --version)",
+      "Bash(npm update:*)",
+      "Bash(claude config list)",
+      "Bash(grep:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run start:blog:*)",
+      "Bash(timeout:*)",
+      "Bash(curl:*)",
+      "Bash(node:*)",
+      "Bash(npx wrangler secret:*)",
+      "Bash(set CLOUDFLARE_API_TOKEN=fKNizHW8Yd9jssPDZDWO6njd7QRfMrXOA8qphf3n)",
+      "Bash($env:CLOUDFLARE_API_TOKEN=\"fKNizHW8Yd9jssPDZDWO6njd7QRfMrXOA8qphf3n\")",
+      "Bash(export CLOUDFLARE_API_TOKEN=\"fKNizHW8Yd9jssPDZDWO6njd7QRfMrXOA8qphf3n\")",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

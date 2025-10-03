@@ -5,14 +5,35 @@ compatibility_date = "2023-10-02"
 [site]
 bucket = "./dist"
 
-[ai]
-binding = "AI"
+[pages]
+pages_build_output_dir = "dist"
+
+# D1 Database binding
+# Run: wrangler d1 create pheromone_reviews
+# Then replace database_id below with the ID from the output
+[[d1_databases]]
+binding = "DB"
+database_name = "pheromone_reviews"
+database_id = "your-database-id-here"  # Replace with actual ID after creating
+
+# KV namespace binding
+# Run: wrangler kv:namespace create "PHEROMONE_KV"
+# Then replace id below with the ID from the output
+[[kv_namespaces]]
+binding = "KV"
+id = "your-kv-namespace-id-here"  # Replace with actual ID after creating
 
 [triggers]
-crons = ["0 3 * * *"]
+crons = ["0 3 * * *"]  # Daily at 3 AM UTC
 
 [vars]
 GITHUB_REPO_NAME = "pheromoneparfums"
 GITHUB_REPO_OWNER = "katalagahakim"
-MAX_REVIEWS_PER_RUN = "1"
-MAX_REVIEWS_TOTAL = "50"
+MAX_REVIEWS_PER_RUN = "200"          # Scrape up to 200 reviews per run
+MAX_REVIEWS_TOTAL = "100000"         # Support up to 100,000 total reviews
+MIN_REVIEWS_PER_PRODUCT = "10"       # Collect at least 10 reviews per product
+MAX_REVIEWS_PER_PRODUCT = "500"      # Can aggregate up to 500 reviews per product
+
+# Secrets (set via wrangler secret put):
+# - GITHUB_TOKEN
+# - OPENAI_API_KEY

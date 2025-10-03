@@ -1,65 +1,307 @@
 ---
 layout: layouts/base.njk
-title: Search
+title: Search Pheromone Reviews
+description: Search and filter through hundreds of real pheromone product reviews
 permalink: /search/
+eleventyNavigation:
+  key: Search
+  order: 3
 ---
 
-<div class="container">
-    <div class="section">
-        <h1>Search Reviews</h1>
-        <input type="text" id="search-input" placeholder="Search for reviews...">
-        <div id="search-results"></div>
+<div class="container search-page" id="search-container">
+  <h1>Search Pheromone Reviews</h1>
+  <p>Find the perfect pheromone product by searching through real user reviews from across the web.</p>
+
+  <div class="search-bar">
+    <input
+      type="text"
+      id="search-input"
+      placeholder="Search by product name, brand, or keyword..."
+      class="search-input"
+      autocomplete="off"
+    />
+  </div>
+
+  <div class="filters-section">
+    <h2>Filters</h2>
+
+    <div class="filter-grid">
+      <div class="filter-group">
+        <label for="filter-type">Product Type:</label>
+        <select id="filter-type" class="filter-select">
+          <option value="">All Types</option>
+          <option value="cologne">Cologne</option>
+          <option value="oil">Oil</option>
+          <option value="spray">Spray</option>
+          <option value="gel">Gel</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filter-gender">Target Gender:</label>
+        <select id="filter-gender" class="filter-select">
+          <option value="">All</option>
+          <option value="men">Men</option>
+          <option value="women">Women</option>
+          <option value="unisex">Unisex</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filter-brand">Brand:</label>
+        <select id="filter-brand" class="filter-select">
+          <option value="">All Brands</option>
+          <!-- Populated dynamically by search.js -->
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filter-min-rating">Minimum Rating:</label>
+        <select id="filter-min-rating" class="filter-select">
+          <option value="0">Any Rating</option>
+          <option value="3">3+ Stars</option>
+          <option value="4">4+ Stars</option>
+          <option value="4.5">4.5+ Stars</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filter-compounds">Pheromone Compounds:</label>
+        <select id="filter-compounds" class="filter-select" multiple>
+          <option value="androstenone">Androstenone</option>
+          <option value="androstenol">Androstenol</option>
+          <option value="androstadienone">Androstadienone</option>
+          <option value="androsterone">Androsterone</option>
+          <option value="estratetraenol">Estratetraenol</option>
+          <option value="copulins">Copulins</option>
+        </select>
+        <small>Hold Ctrl/Cmd to select multiple</small>
+      </div>
+
+      <div class="filter-group filter-actions">
+        <button id="clear-filters" class="btn-secondary">Clear Filters</button>
+      </div>
     </div>
+  </div>
+
+  <div class="results-header">
+    <p id="result-count" class="result-count">Loading reviews...</p>
+  </div>
+
+  <div id="search-results" class="results-container">
+    <!-- Results populated by search.js -->
+    <p class="loading">Loading reviews...</p>
+  </div>
 </div>
 
-<script src="https://unpkg.com/lunr/lunr.min.js"></script>
-<script>
-    window.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.getElementById('search-input');
-        const searchResults = document.getElementById('search-results');
-        let documents = [];
-        let idx;
+<style>
+  .search-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
 
-        // Fetch the search data
-        fetch('/search/index.json')
-            .then(response => response.json())
-            .then(data => {
-                documents = data;
-                idx = lunr(function () {
-                    this.ref('url');
-                    this.field('title');
-                    this.field('content');
+  .search-page h1 {
+    margin-bottom: 0.5rem;
+  }
 
-                    documents.forEach(function (doc) {
-                        this.add(doc);
-                    }, this);
-                });
-            });
+  .search-page > p {
+    color: #666;
+    margin-bottom: 2rem;
+  }
 
-        // Handle search input
-        searchInput.addEventListener('input', function (event) {
-            const query = event.target.value;
-            const results = idx.search(query);
+  .search-bar {
+    margin-bottom: 2rem;
+  }
 
-            searchResults.innerHTML = '';
+  .search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1.1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s;
+  }
 
-            if (results.length) {
-                const resultList = document.createElement('ul');
-                results.forEach(function (result) {
-                    const item = documents.find(function (doc) {
-                        return doc.url === result.ref;
-                    });
-                    const listItem = document.createElement('li');
-                    const link = document.createElement('a');
-                    link.href = item.url;
-                    link.textContent = item.title;
-                    listItem.appendChild(link);
-                    resultList.appendChild(listItem);
-                });
-                searchResults.appendChild(resultList);
-            } else {
-                searchResults.innerHTML = '<p>No results found.</p>';
-            }
-        });
-    });
-</script>
+  .search-input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+
+  .filters-section {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+
+  .filters-section h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .filter-group label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .filter-group small {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 0.25rem;
+  }
+
+  .filter-select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.95rem;
+  }
+
+  .filter-select[multiple] {
+    min-height: 80px;
+  }
+
+  .filter-actions {
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  .btn-secondary {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+
+  .btn-secondary:hover {
+    background: #5a6268;
+  }
+
+  .results-header {
+    margin-bottom: 1rem;
+  }
+
+  .result-count {
+    font-weight: 600;
+    color: #333;
+  }
+
+  .results-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .review-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+
+  .review-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .review-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+  }
+
+  .review-card h3 a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .review-card h3 a:hover {
+    text-decoration: underline;
+  }
+
+  .review-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  .review-meta span {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .review-meta .rating {
+    color: #f59e0b;
+    font-weight: 600;
+  }
+
+  .compounds {
+    background: #e3f2fd;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .excerpt {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .read-more {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .read-more:hover {
+    text-decoration: underline;
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #666;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 2rem;
+    color: #999;
+  }
+
+  @media (max-width: 768px) {
+    .filter-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .review-meta {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+</style>
+
+<script src="/js/search.js"></script>

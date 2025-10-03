@@ -94,7 +94,7 @@ export class PheromoneReviewAgent {
           },
           {
             role: "user",
-            content: "Find the top 5 pheromone fragrance products currently being discussed online. Return as JSON array with name, brand, and type properties for each product in a 'products' array."
+            content: "Find the top 5 pheromone fragrance products from the following brands: PheromoneXS, Liquid Alchemy Labs, and A314. Return as JSON array with name, brand, and type properties for each product in a 'products' array."
           }
         ],
         response_format: { type: "json_object" }
@@ -250,26 +250,6 @@ export class PheromoneReviewAgent {
     console.log(`Researching ${product.name}...`);
     
     try {
-      // Try using Cloudflare AI first
-      try {
-        const response = await this.ai.run('@cf/meta/llama-3-8b-instruct', {
-          messages: [
-            { role: 'system', content: 'You are a helpful assistant that researches pheromone products.' },
-            { role: 'user', content: `Research the pheromone product "${product.name}" by "${product.brand}". Provide information about its composition, effects, user experiences, and general reception. Return as JSON with keys: composition, effects, userExperiences, reception.` }
-          ],
-          response_format: { type: 'json_object' }
-        });
-        
-        // Parse the response
-        const data = JSON.parse(response.response);
-        if (data && (data.composition || data.effects)) {
-          console.log(`Successfully researched ${product.name} using Cloudflare AI`);
-          return data;
-        }
-      } catch (cloudflareError) {
-        console.error(`Error researching ${product.name} with Cloudflare AI:`, cloudflareError);
-      }
-      
       // Fall back to OpenAI if Cloudflare AI fails
       const response = await this.openai.chat.completions.create({
         model: "gpt-4.1-mini",
