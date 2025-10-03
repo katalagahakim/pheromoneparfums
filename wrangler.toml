@@ -14,14 +14,14 @@ pages_build_output_dir = "dist"
 [[d1_databases]]
 binding = "DB"
 database_name = "pheromone_reviews"
-database_id = "your-database-id-here"  # Replace with actual ID after creating
+database_id = "552716b3-e3dd-4e6f-84ab-1c4d0ef6aafa"
 
 # KV namespace binding
 # Run: wrangler kv:namespace create "PHEROMONE_KV"
 # Then replace id below with the ID from the output
 [[kv_namespaces]]
 binding = "KV"
-id = "your-kv-namespace-id-here"  # Replace with actual ID after creating
+id = "aea285731d1f43c7859df3a75f8cff9a"
 
 [triggers]
 crons = ["0 3 * * *"]  # Daily at 3 AM UTC
