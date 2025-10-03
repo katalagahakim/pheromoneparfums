@@ -91,25 +91,96 @@ export class MultiSourceScraper {
   }
 
   /**
-   * Scrape PheroTruth Forum
+   * Scrape Pheromone Forums
    */
   async scrapePheroTruthForum() {
     const reviews = [];
 
     try {
-      // PheroTruth forum threads (using Google search as proxy)
-      const searchQuery = 'site:pherotruth.com review';
-      const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
+      const forumSites = [
+        'pherotruth.net',
+        'pherotruth.fans',
+        'houseofpheromones.com'
+      ];
 
-      // Note: In production, you'd use proper forum scraping or API
-      // For now, return empty to avoid blocking
-      console.log('PheroTruth: Using alternative method (forum requires authentication)');
+      for (const site of forumSites) {
+        console.log(`Scraping ${site}...`);
 
+        try {
+          // Try to fetch the main page or forum listings
+          const response = await fetch(`https://${site}`, {
+            headers: { 'User-Agent': this.userAgent }
+          });
+
+          if (!response.ok) {
+            console.log(`${site} returned ${response.status}`);
+            continue;
+          }
+
+          const html = await response.text();
+
+          // Extract review posts from HTML
+          // Look for common patterns in forum posts
+          const postMatches = html.match(/<article[^>]*>[\s\S]*?<\/article>/gi) ||
+                             html.match(/<div[^>]*class="[^"]*post[^"]*"[^>]*>[\s\S]*?<\/div>/gi) ||
+                             html.match(/<div[^>]*class="[^"]*thread[^"]*"[^>]*>[\s\S]*?<\/div>/gi) || [];
+
+          for (const match of postMatches.slice(0, 20)) {
+            // Extract title
+            const titleMatch = match.match(/<h[1-6][^>]*>([^<]+)<\/h[1-6]>/) ||
+                              match.match(/title="([^"]+)"/) ||
+                              match.match(/<a[^>]*>([^<]{20,})<\/a>/);
+
+            // Extract text content
+            const textMatch = match.match(/<p[^>]*>([^<]{100,})<\/p>/) ||
+                             match.match(/<div[^>]*class="[^"]*content[^"]*"[^>]*>([^<]{100,})<\/div>/);
+
+            if (titleMatch && textMatch) {
+              const title = this.cleanText(titleMatch[1]);
+              const text = this.cleanText(textMatch[1]);
+              const productName = this.extractProductName(title + ' ' + text);
+
+              if (productName && text.length > 200) {
+                reviews.push({
+                  title: title,
+                  text: text.substring(0, 2000),
+                  author: 'Forum User',
+                  date: new Date().toISOString().split('T')[0],
+                  productName: productName,
+                  source: site,
+                  sourceUrl: `https://${site}`,
+                  rating: this.inferRating(text)
+                });
+              }
+            }
+          }
+
+          console.log(`${site}: Found ${reviews.filter(r => r.source === site).length} reviews`);
+          await this.delay(3000);
+        } catch (err) {
+          console.log(`${site} scraping failed:`, err.message);
+        }
+      }
     } catch (error) {
       console.error('Forum scraping error:', error.message);
     }
 
     return reviews;
+  }
+
+  /**
+   * Clean HTML text
+   */
+  cleanText(text) {
+    return text
+      .replace(/<[^>]*>/g, '') // Remove HTML tags
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/\s+/g, ' ')
+      .trim();
   }
 
   /**
