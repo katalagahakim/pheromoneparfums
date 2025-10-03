@@ -33,6 +33,7 @@ export async function handleCronScraping(env) {
 
       const slug = productName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
       const avgRating = 4.0 + Math.random();
+      const productImage = getProductImage(productName);
 
       const markdown = `---
 title: "${productName} - User Reviews from Reddit"
@@ -48,15 +49,19 @@ product:
   rating: ${avgRating.toFixed(1)}
   review_count: ${productReviews.length}
   gender: "unisex"
+  image: "${productImage || ''}"
 ---
 
 ## ${productName} - Reddit User Reviews
+
+${productImage ? `![${productName} Product Image](${productImage})\n` : ''}
 
 **${productReviews.length} real reviews** from r/pheromones:
 
 ${productReviews.map((r, i) => `
 ### Review ${i + 1} - "${r.title}"
 
+${r.imageUrl ? `![${productName}](${r.imageUrl})\n` : ''}
 ${r.text}
 
 *By u/${r.author} on ${r.date}*
@@ -132,13 +137,22 @@ async function scrapeReddit() {
         const productName = extractProductName(p.title + ' ' + p.selftext);
 
         if (productName) {
+          // Extract image URL if post has one
+          let imageUrl = null;
+          if (p.url && (p.url.endsWith('.jpg') || p.url.endsWith('.png') || p.url.endsWith('.jpeg') || p.url.includes('i.redd.it') || p.url.includes('imgur'))) {
+            imageUrl = p.url;
+          } else if (p.preview && p.preview.images && p.preview.images[0]) {
+            imageUrl = p.preview.images[0].source.url.replace(/&amp;/g, '&');
+          }
+
           reviews.push({
             title: p.title,
             text: p.selftext,
             author: p.author,
             date: new Date(p.created_utc * 1000).toISOString().split('T')[0],
             productName: productName,
-            sourceUrl: `https://www.reddit.com${p.permalink}`
+            sourceUrl: `https://www.reddit.com${p.permalink}`,
+            imageUrl: imageUrl
           });
         }
       }
@@ -149,6 +163,20 @@ async function scrapeReddit() {
 
   return reviews;
 }
+
+// Product image database
+const productImages = {
+  'Alfa Maschio': 'https://pherotruth.com/wp-content/uploads/2015/11/alfa-maschio.jpg',
+  'Bad Wolf': 'https://cdn.shopify.com/s/files/1/0016/1049/3825/products/bad-wolf.jpg',
+  'Aqua Vitae': 'https://cdn.shopify.com/s/files/1/0016/1049/3825/products/aqua-vitae.jpg',
+  'Cohesion': 'https://cdn.shopify.com/s/files/1/0016/1049/3825/products/cohesion.jpg',
+  'Edge': 'https://cdn.shopify.com/s/files/1/0016/1049/3825/products/edge.jpg',
+  'Ascend': 'https://cdn.shopify.com/s/files/1/0016/1049/3825/products/ascend.jpg',
+  'Pherazone': 'https://www.pherazone.com/images/pherazone-bottle.jpg',
+  'Evolve-Xs': 'https://pheromonexs.com/cdn/shop/products/evolve-xs.jpg',
+  'Pheromonexs': 'https://pheromonexs.com/cdn/shop/products/signature.jpg',
+  'Primal Instinct': 'https://www.love-scent.com/images/primal-instinct.jpg'
+};
 
 function extractProductName(text) {
   const lowerText = text.toLowerCase();
@@ -168,4 +196,8 @@ function extractProductName(text) {
   }
 
   return null;
+}
+
+function getProductImage(productName) {
+  return productImages[productName] || null;
 }
