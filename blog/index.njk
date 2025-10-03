@@ -86,12 +86,10 @@ layout: layouts/home.njk
 
 .hero-title {
     font-size: 3rem;
-    font-weight: 700;
+    font-weight: 800;
     margin-bottom: 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #ffffff;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
 }
 
 .hero-subtitle {
@@ -112,37 +110,44 @@ layout: layouts/home.njk
 }
 
 .cta-button-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
     color: white;
     padding: 18px 40px;
     border-radius: 50px;
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: 700;
     text-decoration: none;
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 30px rgba(124, 58, 237, 0.5);
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .cta-button-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(124, 58, 237, 0.7);
+    background: linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%);
+    text-decoration: none;
 }
 
 .cta-button-secondary {
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid #22d3ee;
+    color: #ffffff;
     padding: 16px 40px;
     border-radius: 50px;
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: 700;
     text-decoration: none;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3);
 }
 
 .cta-button-secondary:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(34, 211, 238, 0.2);
+    border-color: #06b6d4;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(34, 211, 238, 0.5);
+    text-decoration: none;
 }
 
 .trust-badges {
@@ -158,9 +163,10 @@ layout: layouts/home.njk
 
 .badge-number {
     font-size: 2.5rem;
-    font-weight: 700;
-    color: #667eea;
+    font-weight: 800;
+    color: #22d3ee;
     margin-bottom: 5px;
+    text-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
 }
 
 .badge-text {
@@ -188,9 +194,9 @@ layout: layouts/home.njk
 }
 
 .cta-link {
-    color: #667eea;
+    color: #22d3ee;
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 700;
     text-decoration: none;
 }
 
