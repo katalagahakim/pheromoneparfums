@@ -33,7 +33,9 @@ export async function handleCronScraping(env) {
 
       const slug = productName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
       const avgRating = 4.0 + Math.random();
-      const productImage = getProductImage(productName);
+
+      // Try to scrape fresh image from web, fallback to cached
+      const productImage = await scrapeProductImage(productName);
 
       const markdown = `---
 title: "${productName} - User Reviews from Reddit"
@@ -164,7 +166,32 @@ async function scrapeReddit() {
   return reviews;
 }
 
-// Product image database
+// Product sources for image scraping
+const productSources = {
+  'Alfa Maschio': {
+    shopify: 'https://www.pheromonexs.com/products/alfa-maschio',
+    forum: 'https://pherotruth.net/alfa-maschio',
+    amazon: 'B00EXAMPLE'
+  },
+  'Bad Wolf': {
+    shopify: 'https://www.liquidalchemylabs.com/products/bad-wolf',
+    forum: 'https://pherotruth.net/bad-wolf'
+  },
+  'Aqua Vitae': {
+    shopify: 'https://www.liquidalchemylabs.com/products/aqua-vitae'
+  },
+  'Edge': {
+    shopify: 'https://www.love-scent.com/products/edge-pheromone-cologne'
+  },
+  'Evolve-Xs': {
+    shopify: 'https://www.pheromonexs.com/products/evolve-xs'
+  },
+  'Primal Instinct': {
+    shopify: 'https://www.love-scent.com/products/primal-instinct'
+  }
+};
+
+// Cached product images (fallback)
 const productImages = {
   'Alfa Maschio': 'https://pherotruth.com/wp-content/uploads/2015/11/alfa-maschio.jpg',
   'Bad Wolf': 'https://cdn.shopify.com/s/files/1/0016/1049/3825/products/bad-wolf.jpg',
@@ -196,6 +223,80 @@ function extractProductName(text) {
   }
 
   return null;
+}
+
+// Scrape product image from Shopify/Amazon/Forums
+async function scrapeProductImage(productName) {
+  const sources = productSources[productName];
+
+  if (!sources) {
+    return productImages[productName] || null;
+  }
+
+  try {
+    // Try Shopify first
+    if (sources.shopify) {
+      const response = await fetch(sources.shopify + '.json');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.product && data.product.images && data.product.images[0]) {
+          return data.product.images[0].src;
+        }
+      }
+    }
+
+    // Try scraping HTML from forum
+    if (sources.forum) {
+      const response = await fetch(sources.forum);
+      if (response.ok) {
+        const html = await response.text();
+        const imgMatch = html.match(/<img[^>]+src="([^"]+)"[^>]*alt="[^"]*pheromone[^"]*"/i) ||
+                         html.match(/<img[^>]+src="([^"]+\.(?:jpg|png|jpeg))"/i);
+        if (imgMatch) {
+          return imgMatch[1].startsWith('http') ? imgMatch[1] : `https://pherotruth.net${imgMatch[1]}`;
+        }
+      }
+    }
+
+    // Try Amazon if ASIN provided
+    if (sources.amazon) {
+      const amazonUrl = `https://www.amazon.com/dp/${sources.amazon}`;
+      const response = await fetch(amazonUrl);
+      if (response.ok) {
+        const html = await response.text();
+        const imgMatch = html.match(/"hiRes":"([^"]+)"/);
+        if (imgMatch) {
+          return imgMatch[1];
+        }
+      }
+    }
+  } catch (error) {
+    console.log(`Error scraping image for ${productName}:`, error.message);
+  }
+
+  // Try Google Images search as last resort
+  try {
+    const searchQuery = encodeURIComponent(`${productName} pheromone cologne bottle product`);
+    const googleUrl = `https://www.google.com/search?tbm=isch&q=${searchQuery}`;
+
+    const response = await fetch(googleUrl, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
+    });
+
+    if (response.ok) {
+      const html = await response.text();
+      // Extract first image URL from Google Images results
+      const imgMatch = html.match(/"ou":"([^"]+)"/);
+      if (imgMatch) {
+        return decodeURIComponent(imgMatch[1]);
+      }
+    }
+  } catch (error) {
+    console.log(`Google image search failed for ${productName}`);
+  }
+
+  // Fallback to cached image
+  return productImages[productName] || null;
 }
 
 function getProductImage(productName) {
