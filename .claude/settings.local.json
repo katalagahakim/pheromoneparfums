@@ -14,7 +14,17 @@
       "Bash(set CLOUDFLARE_API_TOKEN=fKNizHW8Yd9jssPDZDWO6njd7QRfMrXOA8qphf3n)",
       "Bash($env:CLOUDFLARE_API_TOKEN=\"fKNizHW8Yd9jssPDZDWO6njd7QRfMrXOA8qphf3n\")",
       "Bash(export CLOUDFLARE_API_TOKEN=\"fKNizHW8Yd9jssPDZDWO6njd7QRfMrXOA8qphf3n\")",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfeat: Transform into autonomous pheromone review scraping platform\n\n- Add autonomous web scraping system with 30+ review sources\n- Add comprehensive database (70+ pheromone products)\n- Implement beautiful glassmorphism theme with gradient backgrounds\n- Add client-side search with filters (brand, type, compounds, rating)\n- Configure Cloudflare D1 database and KV storage\n- Add migrations for products and review sources\n- Display unlimited reviews per product (full text, no truncation)\n- Support Reddit, forums, YouTube, Amazon, and specialty sites\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(git commit:*)",
+      "Bash(npx wrangler d1 create:*)",
+      "Bash(npx wrangler d1 list:*)",
+      "Bash(npx wrangler kv:namespace create:*)",
+      "Bash(npx wrangler d1 execute:*)",
+      "Bash(npx wrangler:*)",
+      "Bash(npm run build:blog:*)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": []
