@@ -306,18 +306,18 @@ export default {
     return router.handle(request, env, ctx);
   },
 
-  // Handle scheduled events (cron)
+  // Handle scheduled events (cron) - FULLY AUTONOMOUS
   async scheduled(event, env, ctx) {
     console.log('=== Scheduled Task Triggered ===');
     console.log(`Time: ${new Date().toISOString()}`);
 
-    // Send message to queue instead of running directly (bypasses timeout)
-    await env.SCRAPER_QUEUE.send({
-      type: 'daily-scrape',
-      timestamp: new Date().toISOString()
-    });
+    // Import the autonomous scraper
+    const { handleCronScraping } = await import('./cron-scraper.js');
 
-    console.log('✅ Scraping job queued');
+    // Run in background (non-blocking)
+    ctx.waitUntil(handleCronScraping(env));
+
+    console.log('✅ Autonomous scraping started');
   },
 
   // Handle queue messages
