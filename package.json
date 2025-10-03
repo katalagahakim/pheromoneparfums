@@ -2,12 +2,14 @@
   "name": "pheromoneparfums",
   "version": "1.0.0",
   "description": "Autonomous pheromone review blog with Cloudflare AI agent",
+  "type": "module",
   "scripts": {
     "build": "npx eleventy --config=blog/.eleventy.js",
     "deploy": "npx wrangler pages deploy dist",
     "start": "npm-run-all --parallel start:*",
     "start:blog": "npx eleventy --serve --config=blog/.eleventy.js",
-    "start:api": "npx wrangler dev functions/api/src/index.js --local"
+    "start:api": "npx wrangler dev functions/api/src/index.js --local",
+    "scrape": "node scripts/daily-scraper.mjs"
   },
   "keywords": [
     "pheromone",
