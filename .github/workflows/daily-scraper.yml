@@ -21,9 +21,11 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install @octokit/rest
+        run: |
+          npm install @octokit/rest
+          npm install node-fetch
 
       - name: Scrape Reddit and commit reviews
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node scripts/daily-scraper.mjs
+        run: node --experimental-modules scripts/daily-scraper.mjs
