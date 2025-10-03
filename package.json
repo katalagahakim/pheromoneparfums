@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Autonomous pheromone review blog with Cloudflare AI agent",
   "scripts": {
-    "prebuild": "git pull",
     "build": "npx eleventy --config=blog/.eleventy.js",
     "deploy": "npx wrangler pages deploy dist",
     "start": "npm-run-all --parallel start:*",
