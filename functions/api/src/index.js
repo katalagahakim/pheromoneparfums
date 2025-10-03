@@ -119,23 +119,18 @@ router.post('/generate-specific', async (request, env, ctx) => {
   }
 });
 
-// TEST: Manual trigger for autonomous multi-source scraper
+// TEST: Manual trigger for queue-based scraper
 router.post('/test-autonomous', async (request, env, ctx) => {
   try {
-    async function doAutonomousScrape() {
-      console.log('🧪 Testing autonomous multi-source scraper...');
-
-      const scheduler = new AutonomousScheduler(env);
-      const result = await scheduler.run();
-
-      console.log('Test complete:', result);
-    }
-
-    ctx.waitUntil(doAutonomousScrape());
+    // Send to queue
+    await env.SCRAPER_QUEUE.send({
+      type: 'manual-test',
+      timestamp: new Date().toISOString()
+    });
 
     return new Response(JSON.stringify({
       success: true,
-      message: 'Autonomous scraper test started! Check logs and GitHub.'
+      message: 'Scraping job sent to queue! Reviews will appear on GitHub in ~1 minute.'
     }), {
       headers: { 'Content-Type': 'application/json' },
     });
