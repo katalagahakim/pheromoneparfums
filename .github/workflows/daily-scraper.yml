@@ -28,4 +28,4 @@ jobs:
       - name: Scrape Reddit and commit reviews
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node --experimental-modules scripts/daily-scraper.mjs
+        run: node scripts/daily-scraper.js
