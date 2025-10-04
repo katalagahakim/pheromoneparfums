@@ -119,18 +119,31 @@ router.post('/generate-specific', async (request, env, ctx) => {
   }
 });
 
-// TEST: Manual trigger for queue-based scraper
+// TEST: Manual trigger for autonomous scraper (same as cron)
 router.post('/test-autonomous', async (request, env, ctx) => {
   try {
-    // Send to queue
-    await env.SCRAPER_QUEUE.send({
-      type: 'manual-test',
-      timestamp: new Date().toISOString()
-    });
+    console.log('Manual trigger of autonomous scraper');
+
+    // Import and run the scraper
+    const { handleCronScraping } = await import('./cron-scraper.js');
+
+    // Run in background
+    const scrapePromise = handleCronScraping(env);
+    ctx.waitUntil(scrapePromise);
+
+    // Wait a bit to get initial feedback
+    setTimeout(async () => {
+      try {
+        const result = await scrapePromise;
+        console.log('Scrape result:', result);
+      } catch (e) {
+        console.error('Scrape error:', e);
+      }
+    }, 1000);
 
     return new Response(JSON.stringify({
       success: true,
-      message: 'Scraping job sent to queue! Reviews will appear on GitHub in ~1 minute.'
+      message: 'Autonomous scraper started! Check logs and GitHub in 1-2 minutes.'
     }), {
       headers: { 'Content-Type': 'application/json' },
     });
